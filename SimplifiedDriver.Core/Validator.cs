@@ -8,28 +8,28 @@ namespace SimplifiedDriver.Core
         /// <summary>
         /// Checks all conditions 
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="packet"></param>
         /// <returns></returns>
 
-        public static bool ValidatePacket(string command)
+        public static bool ValidatePacket(string packet)
         {
-            if (command.Length < 5) // "PT::E" contains 5 letters 
+            if (packet.Length < 5) // "PT::E" contains 5 letters 
                 return false;
 
-            if (!command.StartsWith('P')) // the start of packet stream sequence is a ‚P’ character
+            if (!packet.StartsWith('P')) // the start of packet stream sequence is a ‚P’ character
                 return false;
 
-            int countColons = command.Count(x => x == ':'); // if commands contains less than 2 colons
+            int countColons = packet.Count(x => x == ':'); // if commands contains less than 2 colons
             if (countColons < 2)
                 return false;
 
-            if (!Helper.commands.Contains(command[1])) // if command exist
+            if (!Helper.commands.Contains(packet[1])) // if command exist
                 return false;
 
-            if (command[2]!= ':') // PT: <--- 
+            if (packet[2]!= ':') // PT: <--- 
                 return false;
 
-            foreach (var letter in command) // if command contains only ASCII
+            foreach (var letter in packet) // if command contains only ASCII
             {
                 if (!letter.IsAcceptableValue())
                     return false;
